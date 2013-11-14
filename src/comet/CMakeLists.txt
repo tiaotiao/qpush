@@ -6,10 +6,10 @@ link_directories(/usr/local/lib)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 set (SRCS
-
+    comet.cpp
     )
 
-add_executable(cometsvr ${RCS})
-target_link_libraries(cometsvr tnet tnet_http)
+add_executable(comet ${SRCS})
+target_link_libraries(comet tnet tnet_http)
 
-install(PROGRAMS cometsvr DESTINATION bin/qpush)
+install(TARGETS comet DESTINATION qpush/comet)

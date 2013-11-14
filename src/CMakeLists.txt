@@ -1,3 +1,4 @@
 
-add_subdirectory(cometsvr)
-add_subdirectory(pushsvr)
+add_subdirectory(comet)
+add_subdirectory(push)
+add_subdirectory(publish)
