@@ -1,7 +1,7 @@
 db = {
     'host': '10.20.188.113',
     'port': '3306',
-    'name': 'qing_fengzhiheng',
+    'name': 'qpush',
     'user': 'qing',
     'password': 'admin'
 }
