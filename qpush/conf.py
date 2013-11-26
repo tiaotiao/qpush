@@ -1,14 +1,14 @@
 db = {
     'host': '10.20.188.113',
     'port': '3306',
-    'name': 'qing_fengzhiheng',
+    'name': 'qpush',
     'user': 'qing',
     'password': 'admin'
 }
 
 redis = {
     'host': '127.0.0.1',
-    'port': '6639',
+    'port': 6379,
     'db': '0'
 }
 

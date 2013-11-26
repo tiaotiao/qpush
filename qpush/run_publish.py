@@ -4,7 +4,7 @@ from tornado.ioloop import IOLoop
 from tornado.optins import define, options
 from tornado.httpserver import HTTPServer
 
-from qpush.push.app import PublishApplication
+from qpush.push import PublishApplication
 
 
 def main():
