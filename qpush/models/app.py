@@ -24,7 +24,7 @@ class AppDao(BaseDao):
     `appid` BINARY(16) NOT NULL,
     `appkey` BINARY(8) NOT NULL,
     `appname` VARCHAR(64) DEFAULT '',
-    `appdecs` VARCHAR(300) DEFAULT '',
+    `appdesc` VARCHAR(300) DEFAULT '',
      PRIMARY KEY (`appid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8''' % TABLE
 
