@@ -74,9 +74,4 @@ class AppDao(BaseDao):
             raise AppNotFound
 
 
-if __name__ == '__main__':
-    a = AppDao()
-    b = AppDao()
-    print a is b
-    print a.create_app is b.create_app
-    print a.create_app is AppDao.create_app
+ 
