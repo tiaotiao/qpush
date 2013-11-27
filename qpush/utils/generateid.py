@@ -1,22 +1,36 @@
 import random
-from uuid import uuid1
-from string import hexdigits
+from string import letters
+from string import digits
+
 from redis import Redis
-from qpush.conf import redis as rds
+
+from qpush.conf import redis as rds_conf
+from qpush.conf import INIT_AAPID
+from qpush.conf import INIT_MSGID
 
 
 def gen_msg_id():
-    r = Redis(rds['host'], rds['port'], rds['db'])
-    return r.incr('msgid')
+    rds = Redis(rds_conf['host'], rds_conf['port'], rds_conf['db'])
+    if rds.get("qpush:last_msgid") is None:
+        rds.set("qpush:last_msgid", INIT_MSGID)
+
+    return rds.incr('qpush:last_msgid')
 
 
 def gen_app_id_and_key():
-    appid = uuid1().hex
+    rds = Redis(rds_conf['host'], rds_conf['port'], rds_conf['db'])
+    if rds.get("qpush:last_appid") is None:
+        rds.set("qpush:last_appid", INIT_AAPID)
 
-    lowcase_hexdigits = hexdigits[:16]
-    appkey = ''.join(random.choice(lowcase_hexdigits) for i in range(16))
+    appid = rds.incr("qpush:last_appid")
+    while rds.get("qpush:appid:%d:appkey" % appid):
+        appid = rds.incr("last_appid")
+
+    appkey = ''.join(random.choice(letters+digits) for i in range(40))
+
+    rds.set("qpush:appid:%d:appkey" % appid, appkey)
 
     return appid, appkey
 
 if __name__ == '__main__':
-    print gen_app_id_and_key()
+    i, k = gen_app_id_and_key()

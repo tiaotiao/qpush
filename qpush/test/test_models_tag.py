@@ -29,10 +29,8 @@ class TagDaoTestCase(unittest.TestCase):
         uids = self.tagDao.get_uids(appid, "tag4")
         self.assertEqual(uids, [])
 
-        self.tagDao.remove_tag(appid, "test1", "tag1")
-        self.tagDao.remove_tag(appid, "test1", "tag2")
-        self.tagDao.remove_tag(appid, "test2", "tag2")
-        self.tagDao.remove_tag(appid, "test2", "tag3")
+        self.tagDao.del_tags(appid, "test1", ["tag1", "tag2"])
+        self.tagDao.del_tags(appid, "test2", ["tag2", "tag3"])
 
     def test_set_tags(self):
         appid, _ = gen_app_id_and_key()
@@ -49,25 +47,29 @@ class TagDaoTestCase(unittest.TestCase):
         uids = self.tagDao.get_uids(appid, "tag3")
         self.assertEqual(uids, ["test1", "test2"])
 
-        self.tagDao.remove_tag(appid, "test1", "tag1")
-        self.tagDao.remove_tag(appid, "test1", "tag2")
-        self.tagDao.remove_tag(appid, "test1", "tag3")
-        self.tagDao.remove_tag(appid, "test2", "tag2")
-        self.tagDao.remove_tag(appid, "test2", "tag3")
+        self.tagDao.del_tags(appid, "test1", ["tag1", "tag2", "tag3"])
+        self.tagDao.del_tags(appid, "test2", ["tag2", "tag3"])
 
-    def test_remove_tag(self):
+    def test_get_tags(self):
         appid, _ = gen_app_id_and_key()
         self.tagDao.set_tags(appid, "test1", ["tag1", "tag2"])
+        tags = self.tagDao.get_tags(appid, "test1")
+        self.assertEqual(tags, ["tag1", "tag2"])
+        self.tagDao.del_tags(appid, "test1", ["tag1", "tag2"])
 
-        self.tagDao.remove_tag(appid, "test1", "tag1")
+    def test_del_tags(self):
+        appid, _ = gen_app_id_and_key()
+        self.tagDao.set_tags(appid, "test1", ["tag1", "tag2", "tag3"])
 
-        uids = self.tagDao.get_uids(appid, "tag1")
+        self.tagDao.del_tags(appid, "test1", ["tag1", "tag3"])
+
+        uids = self.tagDao.get_uids(appid, ["tag1"])
         self.assertEqual(uids, [])
 
         uids = self.tagDao.get_uids(appid, "tag2")
         self.assertEqual(uids, ["test1"])
 
-        self.tagDao.remove_tag(appid, "test1", "tag2")
+        self.tagDao.del_tags(appid, "test1", ["tag2"])
 
     def test_hex2bin(self):
         result = _hex2bin("abcdef")

@@ -6,7 +6,7 @@ from qpush.push.handlers import MessageHandler
 class PushApplication(Application):
     def __init__(self):
         handlers = [
-            (r'/status', StatusHandler),    
+            (r'/', StatusHandler),    
             (r'/msg', MessageHandler)    
         ] 
         Application.__init__(self, handlers) 

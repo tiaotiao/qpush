@@ -17,3 +17,8 @@ pushservers = [
     '10.20.187.93:6002',
     '10.20.187.93:6003'
 ]
+
+MSG_QUEUE_MAX_LEN = 500
+
+INIT_AAPID = 11111
+INIT_MSGID = 11111

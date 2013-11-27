@@ -48,17 +48,28 @@ class TagDao(BaseDao):
         uids = [result['uid'] for result in resutls]
         return uids
 
-    def remove_tag(self, appid, uid, tag_name):
+    def del_tags(self, appid, uid, tags):
         appid_bin = _hex2bin(appid)
 
-        self.sqlpool.execute(
-            "DELETE FROM `qpush_tag` WHERE `appid`='%s' "
-            "AND `uid`='%s' "
-            "AND `tag_name`='%s' " % (
-                escape(appid_bin),
-                escape(uid),
-                escape(tag_name))
-        )
+        for tag_name in tags:
+            self.sqlpool.execute(
+                "DELETE FROM `qpush_tag` WHERE `appid`='%s' "
+                "AND `uid`='%s' "
+                "AND `tag_name`='%s' " % (
+                    escape(appid_bin),
+                    escape(uid),
+                    escape(tag_name))
+            )
+
+    def get_tags(self, appid, uid):
+        appid_bin = _hex2bin(appid)
+        results = self.sqlpool.query(
+            "SELECT `tag_name` FROM `qpush_tag` "
+            "WHERE `appid`='%s' "
+            "AND `uid`='%s' " % (appid_bin, uid), 1)
+
+        tags = [r['tag_name'] for r in results]
+        return tags
 
 
 def _hex2bin(appid):
